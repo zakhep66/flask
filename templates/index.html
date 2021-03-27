@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block body %}
-    {{ items }}
 
     <div class="container">
         <div class="row">
@@ -15,4 +14,17 @@
             </h1>
         </div>
     </div>
+
+    <div class="card-deck mb-3 text-center d-flex">
+        {% for item in items %}
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{ item.title }}</h5>
+                <p class="card-text">Цена: {{ item.price }}</p>
+                <a href="/buy/{{ item.id }}" class="btn btn-primary">Купить</a>
+              </div>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}

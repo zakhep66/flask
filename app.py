@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 import json
 
+from cloudipsp import Api, Checkout
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'  # выбираем СУБД, сейчас стоит 'sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -30,6 +32,22 @@ def apiHome():
 def about():
     return render_template('about.html')
 
+@app.route('/buy/<int:id>')
+def bought(id):
+    item = Item.query.get(id)
+
+    api = Api(merchant_id=1397120,
+              secret_key='test')
+    checkout = Checkout(api=api)
+    data = {
+        "currency": "RUB",
+        "amount": item.price
+    }
+    url = checkout.url(data).get('checkout_url')
+    return url
+
+
+
 
 @app.route('/create', methods=['POST', 'GET'])
 def create():
@@ -42,7 +60,7 @@ def create():
         try:
             db.session.add(item)
             db.session.commit()
-            return redirect('/')
+            return redirect("/")
         except:
             return 'Что-то пошло не по плану'
     return render_template('create.html')
