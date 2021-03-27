@@ -33,10 +33,6 @@ def about():
     return render_template('about.html')
 
 
-
-
-
-
 @app.route('/buy/<int:id>/del')
 def boughtDel(id):
     item = Item.query.get_or_404(id)
@@ -47,12 +43,6 @@ def boughtDel(id):
         return redirect('/')
     except:
         return 'Что-то пошло не по плану'
-
-
-
-
-
-
 
 
 @app.route('/buy/<int:id>')
