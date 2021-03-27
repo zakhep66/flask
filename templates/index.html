@@ -1,31 +1,29 @@
-{% extends 'base.html' %}
-
-
-{% block title %}
+{% extends 'base.html' %} {% block title %}
 <title>home</title>
-{% endblock %}
+{% endblock %} {% block body %}
 
-{% block body %}
+<div class="container">
+  <div class="row">
+    <h1>Home Page</h1>
+  </div>
+</div>
 
-    <div class="container">
-        <div class="row">
-            <h1>
-                Home Page
-            </h1>
-        </div>
+<div class="card-deck mb-3 text-center d-flex">
+  {% if items != [] %} {% for item in items %}
+  <div class="card" style="width: 18rem">
+    <div class="card-body">
+      <h5 class="card-title">{{ item.title }}</h5>
+      <p class="card-text">Цена: {{ item.price }}</p>
+      <a href="/buy/{{ item.id }}" class="btn btn-primary">Купить</a>
+      <a href="/buy/{{ item.id }}/del" class="btn btn-danger">DEL</a>
     </div>
+  </div>
+  {% endfor %} {% endif %}
+    <h2 class="mt-4">
+        В базе нет записей
+    </h2>
+  
 
-    <div class="card-deck mb-3 text-center d-flex">
-        {% for item in items %}
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">{{ item.title }}</h5>
-                <p class="card-text">Цена: {{ item.price }}</p>
-                <a href="/buy/{{ item.id }}" class="btn btn-primary">Купить</a>
-                  <a href="/buy/{{ item.id }}/del" class="btn btn-danger">DEL</a>
-              </div>
-            </div>
-        {% endfor %}
-    </div>
+</div>
 
 {% endblock %}

@@ -5,9 +5,11 @@ import json
 from cloudipsp import Api, Checkout
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'  # выбираем СУБД, сейчас стоит 'sqlite'
+# выбираем СУБД, сейчас стоит 'sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,14 +21,14 @@ class Item(db.Model):
     def __repr__(self):
         return self.title
 
+
 @app.route('/')
 def home():
     items = Item.query.order_by(Item.price).all()
+    # if items == []:
+    #     return render_template('index.html') + "В базе пусто"
     return render_template('index.html', items=items)
 
-@app.route('/api/home')
-def apiHome():
-    return json(home())
 
 @app.route('/about')
 def about():
@@ -60,8 +62,6 @@ def bought(id):
     return url
 
 
-
-
 @app.route('/create', methods=['POST', 'GET'])
 def create():
     if request.method == 'POST':
@@ -77,6 +77,7 @@ def create():
         except:
             return 'Что-то пошло не по плану'
     return render_template('create.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
