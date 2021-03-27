@@ -22,6 +22,7 @@
                 <h5 class="card-title">{{ item.title }}</h5>
                 <p class="card-text">Цена: {{ item.price }}</p>
                 <a href="/buy/{{ item.id }}" class="btn btn-primary">Купить</a>
+                  <a href="/buy/{{ item.id }}/del" class="btn btn-danger">DEL</a>
               </div>
             </div>
         {% endfor %}

@@ -32,6 +32,29 @@ def apiHome():
 def about():
     return render_template('about.html')
 
+
+
+
+
+
+@app.route('/buy/<int:id>/del')
+def boughtDel(id):
+    item = Item.query.get_or_404(id)
+
+    try:
+        db.session.delete(item)
+        db.session.commit()
+        return redirect('/')
+    except:
+        return 'Что-то пошло не по плану'
+
+
+
+
+
+
+
+
 @app.route('/buy/<int:id>')
 def bought(id):
     item = Item.query.get(id)
@@ -41,7 +64,7 @@ def bought(id):
     checkout = Checkout(api=api)
     data = {
         "currency": "RUB",
-        "amount": item.price
+        "amount": str(item.price) + '00'
     }
     url = checkout.url(data).get('checkout_url')
     return url
